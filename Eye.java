@@ -4,10 +4,12 @@ public class Eye {
 
     // if you have a lot of instance variables of the same type, you can declare them all at
     //  once by using commas.  You can't set default values, though!
-    private int eyeX, eyeY, eyeWidth, eyeHeight, eyeCenterX, eyeCenterY, pupilX, pupilY;
+    public int eyeX, eyeY, eyeWidth, eyeHeight, eyeCenterX, eyeCenterY, pupilX, pupilY;
     private int eyeballBorder = 3;
     private int pupilRadius = 10;
     private double horDist, vertDist;
+    public int clickedX;
+    public int clickedY;
 
 
     public Eye(int x, int y, int width, int height) {
@@ -50,6 +52,8 @@ public class Eye {
                     
         g.setColor(Color.black);
         g.fillOval(pupilX - pupilRadius, pupilY - pupilRadius, 2 * pupilRadius, 2 * pupilRadius);
+        g.setColor(Color.red);
+        g.drawLine(pupilX,pupilY,clickedX,clickedY);
     }
 
 
@@ -57,6 +61,17 @@ public class Eye {
     //////
     // MouseListener events
     //////
+    /// 
+    public void clicked(int x, int y){
+        this.clickedX = x;
+        this.clickedY = y;
+    }
+
+    public boolean inEye (int mouseX, int mouseY) {
+        double dist = Math.pow(mouseX - eyeCenterX,2) / Math.pow(eyeWidth/2-pupilRadius,2) 
+                 + Math.pow(mouseY - eyeCenterY,2) / Math.pow(eyeHeight/2-pupilRadius,2);
+        return (dist <= 1);    
+}
     
     
     // This sets pupilX and pupilY to the new pupil position, using actual mathematics
