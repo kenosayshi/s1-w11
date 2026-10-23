@@ -34,8 +34,8 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener{
         constructImage(fileName);
 
         // these eyes fit right on Einstein's head.  
-        eye_1 = new Eye(269, 290, 49, 37);
-        eye_2 = new Eye(372, 290, 49, 37);
+        eye_1 = null;
+        eye_2 = null;
         addMouseMotionListener(this);
         addMouseListener(this);
         myFrame.setVisible(true);
@@ -53,6 +53,13 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener{
            
           
     public void paintComponent(Graphics g) {
+
+        if   (      eye_1 == null)
+                eye_1 = new Eye(269, 290, 49, 37);
+        
+    if (eye_2 ==null){
+        eye_2 = new Eye(372, 290, 49, 37);
+    }
   
         g.drawImage(myPic.getImage(), 0, 0, this);
         eye_1.draw(g);
@@ -63,15 +70,12 @@ public class XEyes extends JPanel implements MouseListener, MouseMotionListener{
         int x = event.getX();
         int y = event.getY();
 
+        eye_1.movePupil(event.getX(), event.getY());
+        eye_2.movePupil(event.getX(), event.getY());
         if (eye_1.inEye(x,y)){
             eye_1.movePupil(eye_1.eyeCenterX,eye_1.eyeCenterY);
-            eye_2.movePupil(x,y);
         } else if (eye_2.inEye(x,y)){
             eye_2.movePupil(eye_2.eyeCenterX,eye_2.eyeCenterY);
-            eye_1.movePupil(x,y);
-        } else {
-            eye_1.movePupil(event.getX(), event.getY());
-            eye_2.movePupil(event.getX(), event.getY());
         }
 
         eye_1.clicked(event.getX(),event.getY());
